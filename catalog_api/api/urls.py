@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from api import views  # isort:skip
 
+
 router = DefaultRouter()
 
 router.register(r'albums', views.AlbumViewSet, basename='album')
