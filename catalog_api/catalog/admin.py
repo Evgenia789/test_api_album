@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog.models import Musician, Album, Song, Membership
+from catalog.models import Album, Membership, Musician, Song
 
 
 class MembershipInline(admin.TabularInline):
@@ -20,7 +20,7 @@ class MembershipAdmin(admin.ModelAdmin):
     """
     list_display = ('number', 'song', 'album')
     list_display_links = ('album',)
-    list_filter = ('album','song')
+    list_filter = ('album', 'song')
     search_fields = ('song__name',)
 
 
@@ -51,6 +51,6 @@ class AlbumAdmin(admin.ModelAdmin):
     Album models in the admin zone interface.
     """
     inlines = (MembershipInline,)
-    list_display = ('musician','year')
-    list_filter = ('musician','year')
+    list_display = ('musician', 'year')
+    list_filter = ('musician', 'year')
     search_fields = ('year', 'musician__name')

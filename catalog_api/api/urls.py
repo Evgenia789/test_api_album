@@ -8,6 +8,10 @@ router = DefaultRouter()
 router.register(r'albums', views.AlbumViewSet, basename='album')
 router.register(r'musicians', views.MusicianViewSet, basename='musician')
 router.register(r'songs', views.SongViewSet, basename='song')
+router.register(r'musicians/(?P<id>\d+)/albums',
+                views.CatalogViewSet,
+                basename='albums'
+                )
 
 
 urlpatterns = [

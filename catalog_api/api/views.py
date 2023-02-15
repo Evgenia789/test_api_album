@@ -1,22 +1,13 @@
-# from http import HTTPStatus
-
-# from django.db.models import Sum
-# from django.http import FileResponse
-from django.shortcuts import get_object_or_404
-# from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
-# from rest_framework.decorators import action
-# from rest_framework.permissions import AllowAny, IsAuthenticated
-# from rest_framework.response import Response
 
-from api.serializers import (MusicianSerializer,  # isort:skip
-                             AlbumSerializer, SongSerializer)
-from catalog.models import Musician, Album, Song  # isort:skip
+from api.serializers import (AlbumSerializer, CatalogSerializer,  # isort:skip
+                             MusicianSerializer, SongSerializer)
+from catalog.models import Album, Musician, Song  # isort:skip
 
 
 class MusicianViewSet(viewsets.ModelViewSet):
     """
-    ViewSet для отображения списка или одного ингредиента.
+    ViewSet to display a list or a single musician.
     """
     queryset = Musician.objects.all()
     serializer_class = MusicianSerializer
@@ -24,7 +15,7 @@ class MusicianViewSet(viewsets.ModelViewSet):
 
 class SongViewSet(viewsets.ModelViewSet):
     """
-    ViewSet для отображения списка или одного тега.
+    ViewSet to display a list or a single song.
     """
     queryset = Song.objects.all()
     serializer_class = SongSerializer
@@ -32,9 +23,19 @@ class SongViewSet(viewsets.ModelViewSet):
 
 class AlbumViewSet(viewsets.ModelViewSet):
     """
-    ViewSet для отображения списка или одного рецепта,
-    редактирования, обновления и удаления рецепта. Для
-    добавления или удаления рецепта в избранное или список покупок.
+    ViewSet to display a list or a single musician,
+    edit, update and delete an album.
     """
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
+
+
+class CatalogViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet to display a list of the musician's albums.
+    """
+    serializer_class = CatalogSerializer
+
+    def get_queryset(self):
+        musician_id = self.kwargs.get("id")
+        return Musician.objects.filter(id=musician_id)

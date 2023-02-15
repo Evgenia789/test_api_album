@@ -5,11 +5,12 @@ class Musician(models.Model):
     """A class used to represent a musician."""
     name = models.CharField(
         max_length=200,
-         unique=True,
-         verbose_name='Musician name'
+        unique=True,
+        verbose_name='Musician name'
     )
 
     class Meta:
+        ordering = ('name',)
         verbose_name = 'Musician'
         verbose_name_plural = 'Musicians'
 
@@ -19,7 +20,11 @@ class Musician(models.Model):
 
 class Song(models.Model):
     """A class used to represent a song."""
-    name = models.CharField(max_length=200, verbose_name='Song name')
+    name = models.CharField(
+        max_length=200,
+        unique=True,
+        verbose_name='Song name'
+    )
 
     class Meta:
         verbose_name = 'Song'
@@ -65,7 +70,8 @@ class Membership(models.Model):
         on_delete=models.CASCADE,
         related_name='songinalbum'
     )
-    number = models.IntegerField(
+    number = models.PositiveSmallIntegerField(
+        default=1,
         verbose_name='Sequential number in the album'
     )
 
