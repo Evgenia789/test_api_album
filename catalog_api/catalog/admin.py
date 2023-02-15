@@ -40,7 +40,7 @@ class SongAdmin(admin.ModelAdmin):
     SongAdmin class for editing
     Song models in the admin zone interface.
     """
-    list_display = ('name',)
+    list_display = ('id', 'name')
     search_fields = ('name__istartswith', 'name__contains')
 
 

@@ -25,11 +25,11 @@ class SongSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-    # def to_internal_value(self, data):
-    #     """
-    #     The `to_internal_value` method returns validated data.
-    #     """
-    #     return get_object_or_404(Song, id=data)
+    def to_internal_value(self, data):
+        """
+        The `to_internal_value` method returns validated data.
+        """
+        return get_object_or_404(Song, id=data)
 
 
 class MemberShipSerializer(serializers.ModelSerializer):
@@ -51,9 +51,37 @@ class MemberShipSerializer(serializers.ModelSerializer):
         return data
 
 
+class MusicianSerializer(serializers.ModelSerializer):
+    """The MusicianSerializer serializer for the Musician model."""
+
+    class Meta:
+        fields = ('name',)
+        model = Musician
+
+    def create(self, validated_data):
+        """
+        Return complete object instances based on the validated data.
+        """
+        return Musician.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        The `update` method for editing object.
+        """
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+        return instance
+
+    def to_internal_value(self, data):
+        """
+        The `to_internal_value` method returns validated data.
+        """
+        return get_object_or_404(Musician, id=data)
+
+
 class AlbumSerializer(serializers.ModelSerializer):
     """The AlbumSerializer serializer for the Album model."""
-    musician = serializers.CharField(required=False)
+    musician = MusicianSerializer()
     songs = MemberShipSerializer(source='songinalbum', many=True)
 
     class Meta:
@@ -97,28 +125,6 @@ class AlbumSerializer(serializers.ModelSerializer):
                 number=song['number']
             )
         instance.refresh_from_db()
-        return instance
-
-
-class MusicianSerializer(serializers.ModelSerializer):
-    """The MusicianSerializer serializer for the Musician model."""
-
-    class Meta:
-        fields = ('name',)
-        model = Musician
-
-    def create(self, validated_data):
-        """
-        Return complete object instances based on the validated data.
-        """
-        return Musician.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        """
-        The `update` method for editing object.
-        """
-        instance.name = validated_data.get('name', instance.name)
-        instance.save()
         return instance
 
 
