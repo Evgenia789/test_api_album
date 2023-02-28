@@ -5,8 +5,8 @@ from catalog.models import Album, Membership, Musician, Song
 
 class MembershipInline(admin.TabularInline):
     """
-    Класс IngredientInRecipeInline позволяет редактировать
-    модель IngredientInRecipe на той же странице, что и модель Recipe.
+    Класс MembershipInline allows to edit a
+    model MembershipInline on the same page as the model Album.
     """
     model = Membership
     extra = 1
